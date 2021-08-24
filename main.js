@@ -5,19 +5,24 @@ const os = require("os");
 const store = new electronStore();
 const sessionCookieStoreKey = `cookies.mainWindow${getMacAddress()}`;
 const url = "https://v.helloword.cn";
+// const url = "https://www.baidu.com";
+
 
 app.on("ready", async function createWindow() {
   // 可以创建多个渲染进程
   getMacAddress();
   let win = new BrowserWindow({
     frame: true,
-    minHeight: 600,
-    minWidth: 900
+    // minHeight: 600,
+    minWidth: 900,
+    backgroundColor: 'red'
   });
-  win.maximize();
+  // win.maximize();
   await initCookie();
   win.loadURL(url);
-  win.show();
+  win.on('ready-to-show', function () {
+    win.show();
+  })
   win.on("close", saveCookie);
   win.on("closed", function () {
     win = null;
