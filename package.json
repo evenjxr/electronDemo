@@ -1,0 +1,62 @@
+{
+  "name": "ele",
+  "version": "1.0.0",
+  "description": "jiandanyingyong",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron .",
+    "pack:win": "electron-builder  -w",
+    "pack:mac": "electron-builder  -m"
+  },
+  "build": {
+    "productName": "helloword",
+    "appId": "cn.helloword.v",
+    "copyright": "aaa",
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "win": {
+      "icon": "icon.icon",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "hellowords"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "icon.ico"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron-store": "^8.0.0"
+  },
+  "devDependencies": {
+    "electron": "^13.2.1",
+    "electron-builder": "^22.11.7"
+  }
+}

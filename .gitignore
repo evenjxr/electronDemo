@@ -1,0 +1,20 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+.DS_Store
+dist
+temp
+
+# Editor directories and files
+.idea
+.vscode
+.history
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# expo
+.expo
+
+# dependencies
+node_modules
