@@ -1,29 +1,44 @@
-const { app, BrowserWindow, session } = require("electron");
+const { app, BrowserWindow, webFrame, session } = require("electron");
 const electronStore = require("electron-store");
 const os = require("os");
 
 const store = new electronStore();
 const sessionCookieStoreKey = `cookies.mainWindow${getMacAddress()}`;
-const url = "https://v.helloword.cn";
+const url = "http://v.helloword.cn";
 // const url = "https://www.baidu.com";
-
 
 app.on("ready", async function createWindow() {
   // 可以创建多个渲染进程
   getMacAddress();
   let win = new BrowserWindow({
-    frame: true,
+    webPreferences: {
+      webviewTag: true,
+      contextIsolation: true
+    }
+    // frame: true,
     // minHeight: 600,
-    minWidth: 900,
-    backgroundColor: 'red'
+    // minWidth: 900,
+    // backgroundColor: "fafafa05"
   });
   // win.maximize();
   await initCookie();
   win.loadURL(url);
-  win.on('ready-to-show', function () {
+  win.webContents.on("did-navigate-in-page", function (event, url) {
+    if (url.indexOf("login") > -1) {
+      clearCookie();
+    }
+  });
+  // win.loadURL("file://" + __dirname + "/src/index.html");
+  win.on("ready-to-show", function () {
     win.show();
-  })
-  win.on("close", saveCookie);
+  });
+  win.on("close", () => {
+    if (win.webContents.getURL().indexOf("login") > -1) {
+      clearCookie();
+    } else {
+      saveCookie(url);
+    }
+  });
   win.on("closed", function () {
     win = null;
   });
@@ -90,7 +105,7 @@ async function initCookie() {
   });
 }
 
-function saveCookie() {
+function saveCookie(url) {
   session.defaultSession.cookies
     .get({ url })
     .then(cookies => {
@@ -99,4 +114,8 @@ function saveCookie() {
     .catch(error => {
       console.log(error);
     });
+}
+
+function clearCookie() {
+  store.set(sessionCookieStoreKey, null);
 }

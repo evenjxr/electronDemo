@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="generator" content="GWrite (WYSIWYG editor)" />
+    <title></title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      webview {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .btnBox {
+        position: fixed;
+        bottom: 40px;
+        right: 50px;
+        width: 200px;
+        z-index: 100;
+      }
+      .btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        border: none;
+        background: "#eee";
+        color: "#666";
+      }
+    </style>
+  </head>
+  <body>
+    <webview id="foo" src="http://v.helloword.cn" autosize="on"></webview>
+    <div class="btnBox">
+      <button class="btn" id="houtui" onclick="goBackWebView()">后退</button>
+      <button class="btn" id="qianjin" onclick="goForwardWebView()">
+        前进
+      </button>
+      <button class="btn" id="qianjin" onclick="goHomeWebView()">首页</button>
+      <button class="btn" id="qianjin" onclick="getCurUrl()">当前</button>
+    </div>
+  </body>
+  <!-- <script>
+    onload = () => {
+      const webview = document.querySelector("webview");
+      const indicator = document.querySelector(".indicator");
+
+      const loadstart = () => {
+        indicator.innerText = "loading...";
+      };
+
+      const loadstop = () => {
+        indicator.innerText = "";
+      };
+      webview.addEventListener("did-start-loading", loadstart);
+      webview.addEventListener("did-stop-loading", loadstop);
+    };
+  </script> -->
+  <script>
+    var webview = (onload = () => {
+      webview = document.querySelector("webview");
+    });
+    function goBackWebView() {
+      webview.goBack();
+    }
+    function goForwardWebView() {
+      webview.goForward();
+    }
+    function goHomeWebView() {
+      webview.loadURL("http://base.helloword.cn");
+    }
+    function getCurUrl() {
+      alert(webview.getURL());
+    }
+  </script>
+</html>
