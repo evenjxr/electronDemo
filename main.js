@@ -5,7 +5,6 @@ const os = require("os");
 const store = new electronStore();
 const sessionCookieStoreKey = `cookies.mainWindow${getMacAddress()}`;
 const url = "http://v.helloword.cn";
-// const url = "https://www.baidu.com";
 
 app.on("ready", async function createWindow() {
   // 可以创建多个渲染进程
@@ -13,12 +12,8 @@ app.on("ready", async function createWindow() {
   let win = new BrowserWindow({
     webPreferences: {
       webviewTag: true,
-      contextIsolation: true
+      contextIsolation: false
     }
-    // frame: true,
-    // minHeight: 600,
-    // minWidth: 900,
-    // backgroundColor: "fafafa05"
   });
   // win.maximize();
   await initCookie();

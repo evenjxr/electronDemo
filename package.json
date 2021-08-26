@@ -1,7 +1,7 @@
 {
   "name": "ele",
   "version": "1.0.0",
-  "description": "jiandanyingyong",
+  "description": "",
   "main": "main.js",
   "scripts": {
     "dev": "electron .",
@@ -11,13 +11,13 @@
   "build": {
     "productName": "helloword",
     "appId": "cn.helloword.v",
-    "copyright": "aaa",
+    "copyright": "© 2020 HelloWord. ALL RIGHTS RESERVED",
     "directories": {
       "output": "dist",
       "buildResources": "resources"
     },
     "win": {
-      "icon": "icon.icon",
+      "icon": "icon.ico",
       "target": [
         "nsis"
       ]
@@ -46,7 +46,7 @@
       ]
     },
     "mac": {
-      "icon": "icon.ico"
+      "icon": "icon.icon"
     }
   },
   "keywords": [],
