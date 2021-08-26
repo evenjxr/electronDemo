@@ -1,10 +1,29 @@
-const { app, BrowserWindow, webFrame, session } = require("electron");
+const { app, BrowserWindow, session, Menu } = require("electron");
 const electronStore = require("electron-store");
 const os = require("os");
 
 const store = new electronStore();
 const sessionCookieStoreKey = `cookies.mainWindow${getMacAddress()}`;
-const url = "http://v.helloword.cn";
+// const url = "http://v.helloword.cn";
+// const url = "file://" + __dirname + "/src/index.html"
+const url = "http://192.168.1.15:8080"
+const template = [
+  {
+      label: 'View App',
+      submenu: [
+          {
+              label: '强制刷新',
+              role: 'forceReload'
+          },
+          {
+              label: '全屏',
+              role: 'togglefullscreen'
+          }
+      ]
+  }
+];
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
 
 app.on("ready", async function createWindow() {
   // 可以创建多个渲染进程
@@ -23,7 +42,6 @@ app.on("ready", async function createWindow() {
       clearCookie();
     }
   });
-  // win.loadURL("file://" + __dirname + "/src/index.html");
   win.on("ready-to-show", function () {
     win.show();
   });
@@ -100,9 +118,9 @@ async function initCookie() {
   });
 }
 
-function saveCookie(url) {
+function saveCookie() {
   session.defaultSession.cookies
-    .get({ url })
+    .get({})
     .then(cookies => {
       store.set(sessionCookieStoreKey, cookies);
     })
