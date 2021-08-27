@@ -6,24 +6,26 @@ const store = new electronStore();
 const sessionCookieStoreKey = `cookies.mainWindow${getMacAddress()}`;
 // const url = "http://v.helloword.cn";
 // const url = "file://" + __dirname + "/src/index.html"
-const url = "http://192.168.1.15:8080"
+const url =
+  "https://minipro-1254168140.cos.ap-beijing.myqcloud.com/main.html?a=" +
+  Math.random();
 const template = [
   {
-      label: 'View App',
-      submenu: [
-          {
-              label: '强制刷新',
-              role: 'forceReload'
-          },
-          {
-              label: '全屏',
-              role: 'togglefullscreen'
-          }
-      ]
+    label: "View App",
+    submenu: [
+      {
+        label: "强制刷新",
+        role: "forceReload"
+      },
+      {
+        label: "全屏",
+        role: "togglefullscreen"
+      }
+    ]
   }
 ];
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
+// const menu = Menu.buildFromTemplate(template);
+// Menu.setApplicationMenu(menu);
 
 app.on("ready", async function createWindow() {
   // 可以创建多个渲染进程

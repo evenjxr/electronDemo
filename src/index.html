@@ -1,146 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-    <title>首页</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>学习系统</title>
     <style>
-      * {
-        padding: 0;
-        margin: 0;
+      body {
+        background: #fff;
+        width: 100%;
+        overflow-x: hidden;
       }
-      webview {
-        width: 100vw;
-        height: 100vh;
+      .container {
+        max-width: 700px;
+        width: 100%;
+        padding: 0 31px 10px 31px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        -webkit-box-shadow: 0 2px 4px #6c6d6f;
+        -moz-box-shadow: 0 2px 4px #6c6d6f;
+        box-shadow: 0 2px 4px #6c6d6f;
+      }
+      .title {
         overflow: hidden;
       }
-      .btnBox {
-        position: absolute;
-        bottom: 40px;
-        right: 50px;
-        width: 250px;
-        height: 50px;
-        z-index: 100;
-        padding: 0 10px;
-        border: 2px solid rgb(202, 193, 193);
-        content: none;
+      .title .row1 {
+        overflow: hidden;
+        margin: 20px 0 5px;
+        font-size: 30px;
+        font-weight: 900;
+      }
+      .title span {
+        color: #9c9d9f;
+        font-size: 13px;
+      }
+      article {
+        width: 100%;
+        height: auto;
+        vertical-align: top;
+      }
+      article .title {
+        display: block;
+        margin: 20px auto;
+        width: 50%;
+      }
+      article .main {
+        /* background-image: url(./static/bg.webp);
+        background-position: 0% 0%; */
+        /* background-repeat: repeat;
+        background-attachment: scroll; */
+      }
+      article img {
+        display: block;
+        margin: 20px auto 10px;
+        width: 90%;
+      }
+      footer {
         display: flex;
-        justify-content: space-around;
-        align-items: center;
-        border-radius: 20px;
+        justify-content: space-between;
+        color: #9c9d9f;
+        font-size: 13px;
+        margin: 20px 0;
       }
-      .btnBox .btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 20px;
-        font-size: 60%;
-      }
-      .btnBox span {
-        cursor: move;
+      hr {
+        color: #ccc;
       }
     </style>
   </head>
   <body>
-    <webview id="foo" src="http://192.168.1.15:8080/index1.html" autosize="on"></webview>
-    <div class="btnBox" id="btnBox">
-      <button type="button" class="btn btn-primary btn-sm" onclick="goBackWebView()">后退</button>
-      <button type="button" class="btn btn-primary btn-sm" onclick="goForwardWebView()">前进</button>
-      <button type="button" class="btn btn-primary btn-sm" onclick="refleshWebView()">刷新</button>
-      <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">调试</button>
-      <span>::</span>
-    </div>
-    <div class="modal" id="exampleModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">身份确认</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="input-group">
-              <span class="input-group-text">密码</span>
-              <input type="password" id="password" class="form-control">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" onclick="comfirm()">确认</button>
-          </div>
+    <div class="container">
+      <header class="title">
+        <div class="row1">学习系统</div>
+        <div class="row2"><span>2021-7-22</span></div>
+      </header>
+      <hr />
+      <article>
+        <img class="title" src="./static/title.png" alt="" />
+        <div class="main">
+          <a href="https://gv.helloword.cn">
+            <img src="./static/bg1.png" alt="" />
+          </a>
+          <a href="https://v.helloword.cn">
+            <img src="./static/bg2.png" alt="" />
+          </a>
+          <a href="https://g.helloword.cn">
+            <img src="./static/bg3.png" alt="" />
+          </a>
         </div>
-      </div>
+      </article>
+      <hr />
+      <footer>
+        <span> 阅读 1039 </span>
+        <span> 投诉 </span>
+      </footer>
     </div>
   </body>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-  <script type="module">
-    dragElement(document.getElementById(("btnBox")));
-    function dragElement(elmnt) {
-      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-      document.querySelector("#btnBox span").onmousedown = dragMouseDown;
-      function dragMouseDown(e) {
-        e = e || window.event;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        document.onmousemove = elementDrag;
-      }
-
-      function elementDrag(e) {
-        e = e || window.event;
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-      }
-
-      function closeDragElement() {
-        document.onmouseup = null;
-        document.onmousemove = null;
-      }
-    }
-  </script>
-  <script>
-    function delCookie () {
-      var keys = document.cookie.match(/[^ =;]+(?==)/g)
-      if (keys) {
-        for (var i = keys.length; i--;) {
-          document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString()
-          document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString()
-        }
-      }
-    }
-    var webview = (onload = () => {
-      webview = document.querySelector("webview");
-      webview.addEventListener("did-navigate-in-page", function (event) {
-        if (event.url.indexOf('login') > 0) {
-          delCookie()
-        }
-      });
-    });
-    function goBackWebView() {
-      webview.goBack();
-    }
-    function goForwardWebView() {
-      webview.goForward();
-    }
-    function refleshWebView() {
-      webview.reload()
-    }
-    function toggle() {
-      webview.openDevTools()
-    }
-    function comfirm() {
-      const ele = document.querySelector('#password')
-      if (ele.value === 'yyds') {
-        document.querySelector('.btn-secondary').click()
-        webview.openDevTools()
-        ele.value = ''
-      } else {
-        alert('密码错误')
-      }      
-    }
-  </script>
 </html>
