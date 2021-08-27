@@ -1,7 +1,7 @@
 {
   "name": "ele",
   "version": "1.0.0",
-  "description": "",
+  "description": "helloworld",
   "main": "main.js",
   "scripts": {
     "dev": "electron .",
@@ -17,18 +17,15 @@
       "buildResources": "resources"
     },
     "win": {
-      "icon": "icon.ico",
-      "target": [
-        "nsis"
-      ]
+      "icon": "256.icon",
+      "target": "nsis"
     },
     "nsis": {
       "oneClick": false,
       "allowElevation": true,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "hellowords"
+      "createStartMenuShortcut": true
     },
     "dmg": {
       "contents": [
@@ -45,9 +42,7 @@
         }
       ]
     },
-    "mac": {
-      "icon": "icon.icon"
-    }
+    "mac": {}
   },
   "keywords": [],
   "author": "",

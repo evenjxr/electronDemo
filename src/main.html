@@ -39,6 +39,7 @@
         height: 40px;
         border-radius: 20px;
         font-size: 60%;
+        background: #2196f3;
       }
       .btnBox span {
         cursor: move;
@@ -47,10 +48,13 @@
   </head>
   <body>
     <webview
-      src="https://minipro-1254168140.cos.ap-beijing.myqcloud.com/index.html"
+      src="http://127.0.0.1:8000/index.html?3333"
       autosize="on"
     ></webview>
     <div class="btnBox" id="btnBox">
+      <button type="button" class="btn btn-primary btn-sm" onclick="gotoHome()">
+        首页
+      </button>
       <button
         type="button"
         class="btn btn-primary btn-sm"
@@ -58,13 +62,7 @@
       >
         后退
       </button>
-      <button
-        type="button"
-        class="btn btn-primary btn-sm"
-        onclick="goForwardWebView()"
-      >
-        前进
-      </button>
+
       <button
         type="button"
         class="btn btn-primary btn-sm"
@@ -156,35 +154,22 @@
     }
   </script>
   <script>
-    function delCookie() {
-      var keys = document.cookie.match(/[^ =;]+(?==)/g);
-      if (keys) {
-        for (var i = keys.length; i--; ) {
-          document.cookie =
-            keys[i] + "=0;path=/;expires=" + new Date(0).toUTCString();
-          document.cookie =
-            keys[i] +
-            "=0;path=/;domain=" +
-            document.domain +
-            ";expires=" +
-            new Date(0).toUTCString();
-        }
-      }
-    }
+    const { ipcRenderer } = require("electron");
     var webview = (onload = () => {
       webview = document.querySelector("webview");
       webview.addEventListener("did-navigate-in-page", function (event) {
         if (event.url.indexOf("login") > -1) {
-          delCookie();
-          // webview.reload();
+          ipcRenderer.send("clear-cookies", event.url);
+        } else {
+          ipcRenderer.send("save-cookies", event.url);
         }
       });
     });
     function goBackWebView() {
       webview.goBack();
     }
-    function goForwardWebView() {
-      webview.goForward();
+    function gotoHome() {
+      webview.loadURL("http://127.0.0.1:8000/index.html?a=" + Math.random());
     }
     function refleshWebView() {
       webview.reload();

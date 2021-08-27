@@ -1,14 +1,15 @@
-const { app, BrowserWindow, session, Menu } = require("electron");
+const { app, BrowserWindow, session, Menu, ipcMain } = require("electron");
 const electronStore = require("electron-store");
 const os = require("os");
 
 const store = new electronStore();
 const sessionCookieStoreKey = `cookies.mainWindow${getMacAddress()}`;
-// const url = "http://v.helloword.cn";
-// const url = "file://" + __dirname + "/src/index.html"
-const url =
-  "https://minipro-1254168140.cos.ap-beijing.myqcloud.com/main.html?a=" +
-  Math.random();
+const url = "http://127.0.0.1:8000/main.html?b=" + Math.random();
+// const url = "file://" + __dirname + "/src/main.html?a=" + Math.random();
+// const url = "https://minipro-1254168140.cos.ap-beijing.myqcloud.com/index.html";
+// const url =
+//   "https://minipro-1254168140.cos.ap-beijing.myqcloud.com/main.html?a=" +
+//   Math.random();
 const template = [
   {
     label: "View App",
@@ -24,42 +25,42 @@ const template = [
     ]
   }
 ];
-// const menu = Menu.buildFromTemplate(template);
-// Menu.setApplicationMenu(menu);
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
+
+ipcMain.on("clear-cookies", (event, url) => {
+  clearCookie();
+});
+ipcMain.on("save-cookies", async (event, url) => {
+  await saveCookie();
+  await initCookie();
+});
 
 app.on("ready", async function createWindow() {
-  // 可以创建多个渲染进程
-  getMacAddress();
   let win = new BrowserWindow({
     webPreferences: {
       webviewTag: true,
-      contextIsolation: false
+      contextIsolation: false,
+      nodeIntegration: true
     }
   });
   // win.maximize();
   await initCookie();
   win.loadURL(url);
-  win.webContents.on("did-navigate-in-page", function (event, url) {
-    if (url.indexOf("login") > -1) {
-      clearCookie();
-    }
-  });
   win.on("ready-to-show", function () {
     win.show();
   });
   win.on("close", () => {
-    if (win.webContents.getURL().indexOf("login") > -1) {
-      clearCookie();
-    } else {
-      saveCookie(url);
-    }
+    saveCookie();
   });
   win.on("closed", function () {
     win = null;
   });
+  win.on("did-navigate-in-page", () => {
+    win.focus();
+  });
 });
 
-// 页面全部关闭后关闭主进程,不同平台可能有不同的处理方式
 app.on("window-all-closed", () => {
   app.quit();
 });
@@ -120,11 +121,27 @@ async function initCookie() {
   });
 }
 
-function saveCookie() {
-  session.defaultSession.cookies
+async function saveCookie() {
+  await session.defaultSession.cookies
     .get({})
     .then(cookies => {
-      store.set(sessionCookieStoreKey, cookies);
+      const cookie = cookies.find(
+        item => item.name === "student-grammar-token"
+      );
+      if (cookie) {
+        // newCookies = [
+        //   "gv.helloword.cn",
+        //   "v.helloword.cn",
+        //   "g.helloword.cn"
+        // ].map(site => {
+        //   return {
+        //     ...cookie,
+        //     domain: site
+        //   };
+        // });
+        // console.log(222222, newCookies);
+        store.set(sessionCookieStoreKey, [cookie]);
+      }
     })
     .catch(error => {
       console.log(error);
@@ -132,5 +149,22 @@ function saveCookie() {
 }
 
 function clearCookie() {
+  session.defaultSession.cookies
+    .get({})
+    .then(cookies => {
+      cookies.forEach(cookie => {
+        let url = "";
+        url += cookie.secure ? "https://" : "http://";
+        url += cookie.domain.charAt(0) === "." ? "www" : "";
+        url += cookie.domain;
+        url += cookie.path;
+        session.defaultSession.cookies.remove(url, cookie.name, error => {
+          if (error) console.log(`error removing cookie ${cookie.name}`, error);
+        });
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
   store.set(sessionCookieStoreKey, null);
 }
